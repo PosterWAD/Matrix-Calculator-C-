@@ -1,0 +1,36 @@
+# Kompilacja
+*.exe
+*.o
+*.obj
+*.out
+*.a
+*.lib
+*.so
+*.dll
+*.dylib
+*.pdb
+*.ilk
+*.exp
+*.gch
+*.pch
+
+# CMake
+/build/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+CTestTestfile.cmake
+compile_commands.json
+CMakeUserPresets.json
+
+# Visual Studio
+.vs/
+*.vcxproj.user
+*.suo
+*.user
+*.ncb
+
+# Windows
+desktop.ini
+Thumbs.db
+ehthumbs.db
