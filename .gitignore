@@ -29,8 +29,13 @@ CMakeUserPresets.json
 *.suo
 *.user
 *.ncb
+.vscode/
+cspell.json
 
 # Windows
 desktop.ini
 Thumbs.db
 ehthumbs.db
+
+        
+        
