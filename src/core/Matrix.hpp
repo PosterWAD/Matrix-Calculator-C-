@@ -9,6 +9,7 @@ class Matrix {
 
     public:
     Matrix(int rows, int columns);
+    Matrix userInputValues();
     Matrix add(Matrix& other);
     Matrix subtract(Matrix& other);
     Matrix multiply(Matrix& other);
