@@ -54,6 +54,11 @@ Matrix Matrix::multiply(Matrix& other) {
 
 Matrix Matrix::transpose() {
     Matrix result(columns, rows);
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < columns; c++) {
+                result.values[c][r] = this->values[r][c];
+            }
+        }
     return result;
 }
 
