@@ -31,8 +31,12 @@ Matrix Matrix::add(Matrix& other) {
 }
 
 Matrix Matrix::subtract(Matrix& other) {
-    
     Matrix result(rows, columns);
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < columns; c++) {
+                result.values[r][c] = this->values[r][c] - other.values[r][c];
+            }
+        }
     return result;
 }
 
