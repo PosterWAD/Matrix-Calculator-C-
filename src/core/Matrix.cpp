@@ -41,11 +41,11 @@ Matrix Matrix::subtract(Matrix& other) {
 }
 
 Matrix Matrix::multiply(Matrix& other) {
-    Matrix result(rows, columns);
-    for (int r = 0; r < this->rows.size(); r++) {
-        for (int c = 0; c < other.columns.size(); c++) {
-            for (int k = 0; k < other.columns.size(); k++) {
-                result.values[r][c] = this->values[r][k] * other.values[k][c];
+    Matrix result(rows, other.columns);
+    for (int r = 0; r < rows; r++) {
+        for (int c = 0; c < other.columns; c++) {
+            for (int k = 0; k < other.columns; k++) {
+                result.values[r][c] += this->values[r][k] * other.values[k][c];
             }
         }
     }
