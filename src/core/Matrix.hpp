@@ -16,6 +16,7 @@ class Matrix {
     // Matrix divide(Matrix& other);    //do dodania później jako mnożenie przez odwrotność
     Matrix transpose();
     Matrix inverse();
+    Matrix identity();
     double determinant();
     double trace();
 

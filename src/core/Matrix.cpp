@@ -64,5 +64,26 @@ Matrix Matrix::transpose() {
 
 Matrix Matrix::inverse() {
     Matrix result(rows, columns);
+
     return result;
+}
+
+Matrix Matrix::identity(){
+    Matrix result(rows, columns);
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < columns; c++) {
+                result.values[r][c] = 0;
+            }
+            result.values[r][r] = 1;
+        }
+    return result;
+}
+double Matrix::determinant() {
+    
+    return 0;
+}
+
+double Matrix::trace() {
+    
+    return 0;
 }
