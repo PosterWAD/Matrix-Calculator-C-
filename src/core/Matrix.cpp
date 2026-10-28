@@ -75,8 +75,20 @@ Matrix Matrix::identity(){
         }
     return result;
 }
-double Matrix::determinant() {
-
+double Matrix::determinant(const Matrix& matrix) {
+    
+    if (matrix.rows == 2 || matrix.rows == 3) {
+    if (matrix.rows == 2)
+        return matrix.values[0][0] * matrix.values[1][1] - matrix.values[0][1] * matrix.values[1][0];
+        
+    //else Sarrus 3x3
+    double plusy = 0, minusy = 0;
+        for (int i = 0; i < 3; i++) {
+            plusy  += matrix.values[0][i] * matrix.values[1][(i+1)%3] * matrix.values[2][(i+2)%3];
+            minusy += matrix.values[2][i] * matrix.values[1][(i+1)%3] * matrix.values[0][(i+2)%3];
+        }
+        return plusy - minusy;
+    }
 }
 
 double Matrix::trace() {

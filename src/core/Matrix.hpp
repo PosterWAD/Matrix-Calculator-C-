@@ -17,7 +17,7 @@ class Matrix {
     Matrix transpose();
     Matrix inverse();
     Matrix identity();
-    double determinant();
+    double determinant(const Matrix& matrix);
     double trace();
 
 };
