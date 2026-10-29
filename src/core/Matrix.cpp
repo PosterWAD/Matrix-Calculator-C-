@@ -1,13 +1,11 @@
 #include "Matrix.hpp"
 
+#include <iostream>
+
 Matrix::Matrix(int rows, int columns) {
     this->rows = rows;
     this->columns = columns;
-    for (int r = 0; r < rows; r++) {
-        for (int c = 0; c < columns; c++) {
-            values[r][c] = 0;
-        }
-    }
+    values.assign(rows, std::vector<double>(columns, 0));
 }
 
 void Matrix::userInputValues() {
@@ -62,37 +60,78 @@ Matrix Matrix::transpose() {
     return result;
 }
 
-Matrix Matrix::transpose() {
-    Matrix result(columns, rows);
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < columns; c++) {
-                result.values[c][r] = this->values[r][c];
-            }
-        }
+Matrix Matrix::identity(){
+    Matrix result(rows, columns);
+
     return result;
 }
 
-Matrix Matrix::identity(){
+Matrix Matrix::inverse() {
     Matrix result(rows, columns);
         for (int r = 0; r < rows; r++) {
             result.values[r][r] = 1;
         }
     return result;
 }
-double Matrix::determinant() const {
-    
-    if (rows == 2 || rows == 3) {
-    if (rows == 2)
+
+
+double Matrix::determinant() const { 
+    if (rows == 1) {
+        return values[0][0];
+    }
+    if (rows == 2) {
         return values[0][0] * values[1][1] - values[0][1] * values[1][0];
-        
-    //else Sarrus 3x3
-    double plusy = 0, minusy = 0;
+    }
+    if (rows == 3) {
+        double plusy = 0, minusy = 0;
         for (int i = 0; i < 3; i++) {
-            plusy  += values[0][i] * values[1][(i+1)%3] * values[2][(i+2)%3];
-            minusy += values[2][i] * values[1][(i+1)%3] * values[0][(i+2)%3];
+            plusy += values[0][i] * values[1][(i + 1) % 3] * values[2][(i + 2) % 3];
+            minusy += values[2][i] * values[1][(i + 1) % 3] * values[0][(i + 2) % 3];
         }
         return plusy - minusy;
     }
+
+    // 4x4 i wieksze, takze 100x100: kopia, zera pod przekatna, iloczyn przekatnej.
+    std::vector<std::vector<double>> a = values;
+    double sign = 1;
+    for (int col = 0; col < rows; col++) {
+        int pivot = col;
+        double best = a[col][col];
+        if (best < 0) {
+            best = -best;
+        }
+        for (int r = col + 1; r < rows; r++) {
+            double mag = a[r][col];
+            if (mag < 0) {
+                mag = -mag;
+            }
+            if (mag > best) {
+                best = mag;
+                pivot = r;
+            }
+        }
+        if (best < 1e-10) {
+            return 0;
+        }
+        if (pivot != col) {
+            std::vector<double> tmp = a[col];
+            a[col] = a[pivot];
+            a[pivot] = tmp;
+            sign = -sign;
+        }
+        for (int r = col + 1; r < rows; r++) {
+            double factor = a[r][col] / a[col][col];
+            for (int c = col; c < rows; c++) {
+                a[r][c] -= factor * a[col][c];
+            }
+        }
+    }
+
+    double det = sign;
+    for (int i = 0; i < rows; i++) {
+        det *= a[i][i];
+    }
+    return det;
 }
 
 double Matrix::trace() {

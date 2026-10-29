@@ -1,15 +1,17 @@
 #ifndef MATRIX_HPP
 #define MATRIX_HPP
 
+#include <vector>
+
 class Matrix {
     private:
     int rows;
     int columns;
-    double values[8][8];
+    std::vector<std::vector<double>> values;
 
     public:
     Matrix(int rows, int columns);
-    Matrix userInputValues();
+    void userInputValues();
     Matrix add(Matrix& other);
     Matrix subtract(Matrix& other);
     Matrix multiply(Matrix& other);
