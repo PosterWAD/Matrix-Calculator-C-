@@ -15,7 +15,7 @@ class Matrix {
     Matrix add(Matrix& other);
     Matrix subtract(Matrix& other);
     Matrix multiply(Matrix& other);
-    // Matrix divide(Matrix& other);    //do dodania później jako mnożenie przez odwrotność
+    Matrix divide(Matrix& other);
     Matrix transpose();
     Matrix inverse();
     Matrix identity();

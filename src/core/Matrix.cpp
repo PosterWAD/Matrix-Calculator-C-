@@ -50,6 +50,23 @@ Matrix Matrix::multiply(Matrix& other) {
     return result;
 }
 
+Matrix Matrix::divide(Matrix& other) {
+    /*
+    Matrix result(rows, columns);
+    Matrix new_other = other.inverse();
+    for (int r = 0; r < rows; r++) {
+        for (int c = 0; c < columns; c++) {
+            for (int k = 0; k < columns; k++) {
+                result.values[r][c] += this->values[r][k] * new_other.values[k][c];
+            }
+        }
+    }
+    return result;
+    */
+    Matrix inverted = other.inverse();
+    return multiply(inverted);
+}
+
 Matrix Matrix::transpose() {
     Matrix result(columns, rows);
         for (int r = 0; r < rows; r++) {
