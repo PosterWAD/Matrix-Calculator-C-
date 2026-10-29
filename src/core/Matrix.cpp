@@ -72,14 +72,59 @@ Matrix Matrix::inverse() {
     Matrix result(rows, columns);
     const int n = rows;
     std::vector<std::vector<double>> aug(n, std::vector<double>(2 * n, 0));
-        for (int r = 0; r < n; r++) {
-            for (int c = 0; c < n; c++) {
-                aug[r][c] = values[r][c];
+    for (int r = 0; r < n; r++) {
+        for (int c = 0; c < n; c++) {
+            aug[r][c] = values[r][c];
+        }
+        aug[r][n + r] = 1;
+    }
+
+    for (int col = 0; col < n; col++) {
+        int pivot = col;
+        double best = aug[col][col];
+        if (best < 0) {
+            best = -best;
+        }
+        for (int r = col + 1; r < n; r++) {
+            double mag = aug[r][col];
+            if (mag < 0) {
+                mag = -mag;
             }
-            for (int c = n; c < 2 * n; c++) {
-                aug[r][c] = (r == c - n) ? 1 : 0;
+            if (mag > best) {
+                best = mag;
+                pivot = r;
             }
         }
+        if (best < 1e-10) {
+            return result;
+        }
+        if (pivot != col) {
+            std::vector<double> tmp = aug[col];
+            aug[col] = aug[pivot];
+            aug[pivot] = tmp;
+        }
+
+        double pivotValue = aug[col][col];
+        for (int c = 0; c < 2 * n; c++) {
+            aug[col][c] /= pivotValue;
+        }
+
+        for (int r = 0; r < n; r++) {
+            if (r == col) {
+                continue;
+            }
+            double factor = aug[r][col];
+            for (int c = 0; c < 2 * n; c++) {
+                aug[r][c] -= factor * aug[col][c];
+            }
+        }
+    }
+
+    for (int r = 0; r < n; r++) {
+        for (int c = 0; c < n; c++) {
+            result.values[r][c] = aug[r][n + c];
+        }
+    }
     return result;
 }
 
