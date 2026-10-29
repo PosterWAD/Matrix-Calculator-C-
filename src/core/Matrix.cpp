@@ -52,9 +52,14 @@ Matrix Matrix::multiply(Matrix& other) {
 
 Matrix Matrix::transpose() {
     Matrix result(columns, rows);
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < columns; c++) {
-                result.values[c][r] = this->values[r][c];
+        const int n = rows;
+        std::vector<std::vector<double>> aug(n, std::vector<double>(2 * n, 0));
+        for (int r = 0; r < n; r++) {
+            for (int c = 0; c < n; c++) {
+                aug[r][c] = values[r][c];
+            }
+            for (int c = n; c < 2 * n; c++) {
+                aug[r][c] = (r == c - n) ? 1 : 0;
             }
         }
     return result;
@@ -62,7 +67,11 @@ Matrix Matrix::transpose() {
 
 Matrix Matrix::identity(){
     Matrix result(rows, columns);
-
+    for (int r = 0; r < rows; r++) {
+        for (int c = 0; c < columns; c++) {
+            result.values[c][r] = this->values[r][c];
+        }
+    }
     return result;
 }
 
