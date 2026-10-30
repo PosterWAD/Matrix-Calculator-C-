@@ -22,7 +22,7 @@ Macierz to prostokątna tabela liczb plus reguły łączenia tabel. Klasa jest w
 
 **`at(row, col)` sprawdza zakres i rzuca wyjątek.** `operator[]` wektora nie sprawdza zakresu tak, żeby w komunikacie podać rozmiar macierzy. Komunikat w rodzaju „indeks (2, 0) jest poza macierzą 2x3” przyda się, gdy parser źle policzy pozycję.
 
-**Rzucaj własny typ wyjątku** pochodny od `std::runtime_error`, na przykład `MathError`. Wywołujący złapie błąd matematyczny bez łapania każdego możliwego `std::exception`. Tę małą klasę umieść w nagłówku macierzy albo w `src/core/MathError.hpp`.
+**Rzucaj własny typ wyjątku** pochodny od `std::runtime_error`, na przykład `MatrixError`. Wywołujący złapie błąd matematyczny bez łapania każdego możliwego `std::exception`. Tę małą klasę umieść w nagłówku macierzy albo w `src/core/MatrixError.hpp`.
 
 **Wewnątrz `Matrix` pozwól na do 16 w każdym wymiarze.** Aplikacja odrzuci dane użytkownika powyżej 8x8 w interfejsie. Faza 2 i tak potrzebuje macierzy rozszerzonej 8x16. Jeśli na sztywno ograniczysz klasę do 8, odwrotności nie da się zbudować. W konstruktorze odrzucaj 0 i wszystko powyżej 16.
 
@@ -65,7 +65,7 @@ std::ostream& operator<<(std::ostream& os, const Matrix& matrix);
 
 1. **Konstruktor `(rows, cols, fill)`.** Odrzucaj wiersze albo kolumny spoza 1..16. Alokuj `rows * cols` elementów ustawionych na `fill`.
 2. **Konstruktor z listy inicjalizacyjnej.** `Matrix{{1, 2, 3}, {4, 5, 6}}` ma być 2x3. Odrzucaj pustą listę, pusty wiersz albo wiersze różnej długości. Istnieje po to, żeby `main.cpp` mógł zapisać oczekiwane wyniki bez pętli.
-3. **`at`.** Oblicz płaski indeks. Jeśli `row >= rows` albo `col >= cols`, rzuć `MathError` zanim dotkniesz wektora.
+3. **`at`.** Oblicz płaski indeks. Jeśli `row >= rows` albo `col >= cols`, rzuć `MatrixError` zanim dotkniesz wektora.
 4. **`transpose`.** Zbuduj macierz `cols` na `rows`. Element `(c, r)` wyniku to element `(r, c)` tej macierzy. Nie zmieniaj `*this`.
 5. **`operator+` i `operator-`.** Oba wymagają tego samego kształtu. Jeśli go nie ma, rzuć wyjątek i podaj oba rozmiary w komunikacie. W przeciwnym razie zbuduj wynik i dodawaj albo odejmuj element po elemencie.
 6. **`operator*(const Matrix&)`.** Legalne tylko gdy `this->cols() == rhs.rows()`. Rozmiar wyniku to `this->rows()` na `rhs.cols()`. Element `(r, c)` to iloczyn skalarny wiersza `r` lewej macierzy i kolumny `c` prawej. Ten element zaczyna od `0`.

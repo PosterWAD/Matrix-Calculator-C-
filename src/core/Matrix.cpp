@@ -1,8 +1,28 @@
 #include "Matrix.hpp"
-
+#include "MatrixError.hpp"
+#include <cmath>
 #include <iostream>
 
+void Matrix::set(int row, int column, double value) {
+    if (row < 0 || column < 0 || row >= rows || column >= columns) {
+        throw MatrixError("Indeks jest poza macierzą");
+    }
+    values[row][column] = value;
+}
+
+void Matrix::print() const{
+    for (int r = 0; r < rows; r++) {
+        for (int c = 0; c < columns; c++) {
+            std::cout << values[r][c] << " ";
+        }
+        std::cout << "\n";
+    }
+}
+
 Matrix::Matrix(int rows, int columns) {
+    if (rows < 1 || columns < 1) {
+        throw MatrixError("Wymiary macierzy muszą być większe od zera");
+    }
     this->rows = rows;
     this->columns = columns;
     values.assign(rows, std::vector<double>(columns, 0));
@@ -13,12 +33,17 @@ void Matrix::userInputValues() {
     for (int r = 0; r < rows; r++) {
         for (int c = 0; c < columns; c++) {
             std::cout << "wiersz " << r + 1 << ", kolumna " << c + 1 << ": ";
-            std::cin >> values[r][c];
+            if (!(std::cin >> values[r][c])) {
+                throw MatrixError("Oczekiwano liczby");
+            }
         }
     }
 }
 
 Matrix Matrix::add(Matrix& other) {
+    if (rows != other.rows || columns != other.columns) {
+        throw MatrixError("Dodawanie macierzy wymaga takich samych wymiarów");
+    }
     Matrix result(rows, columns);
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
@@ -29,6 +54,9 @@ Matrix Matrix::add(Matrix& other) {
 }
 
 Matrix Matrix::subtract(Matrix& other) {
+    if (rows != other.rows || columns != other.columns) {
+        throw MatrixError("Odejmowanie macierzy wymaga takich samych wymiarów");
+    }
     Matrix result(rows, columns);
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
@@ -39,10 +67,13 @@ Matrix Matrix::subtract(Matrix& other) {
 }
 
 Matrix Matrix::multiply(Matrix& other) {
+    if (columns != other.rows) {
+        throw MatrixError("Mnożenie macierzy wymaga, żeby liczba kolumn pierwszej macierzy była równa liczbie wierszy drugiej macierzy");
+    }
     Matrix result(rows, other.columns);
     for (int r = 0; r < rows; r++) {
         for (int c = 0; c < other.columns; c++) {
-            for (int k = 0; k < other.columns; k++) {
+            for (int k = 0; k < columns; k++) {
                 result.values[r][c] += this->values[r][k] * other.values[k][c];
             }
         }
@@ -51,6 +82,15 @@ Matrix Matrix::multiply(Matrix& other) {
 }
 
 Matrix Matrix::divide(Matrix& other) {
+    if (other.rows != other.columns) {
+        throw MatrixError("Dzielenie przez macierz wymaga, żeby macierz była kwadratowa");
+    }
+    if (columns != other.rows) {
+        throw MatrixError("Dzielenie wymaga, żeby liczba kolumn pierwszej macierzy była równa rozmiarowi drugiej");
+    }
+    if (std::fabs(other.determinant()) < 1e-10) {
+        throw MatrixError("Dzielenie przez macierz o wyznaczniku równym 0 jest niemożliwe");
+    }
     /*
     Matrix result(rows, columns);
     Matrix new_other = other.inverse();
@@ -78,14 +118,23 @@ Matrix Matrix::transpose() {
 }
 
 Matrix Matrix::identity(){
+    if (rows != columns) {
+        throw MatrixError("Macierz jednostkowa wymaga, żeby macierz była kwadratowa");
+    }
     Matrix result(rows, columns);
         for (int r = 0; r < rows; r++) {
             result.values[r][r] = 1;
         }
     return result;
 }
-
+    
 Matrix Matrix::inverse() {
+    if (rows != columns) {
+        throw MatrixError("Inwersja macierzy wymaga, żeby macierz była kwadratowa");
+    }
+    if (std::fabs(determinant()) < 1e-10) {
+        throw MatrixError("Inwersja macierzy o wyznaczniku równym 0 jest niemożliwa");
+    }
     Matrix result(rows, columns);
     const int n = rows;
     std::vector<std::vector<double>> aug(n, std::vector<double>(2 * n, 0));
@@ -113,7 +162,7 @@ Matrix Matrix::inverse() {
             }
         }
         if (best < 1e-10) {
-            return result;
+            throw MatrixError("Macierz jest osobliwa, nie ma odwrotności");
         }
         if (pivot != col) {
             std::vector<double> tmp = aug[col];
@@ -147,6 +196,9 @@ Matrix Matrix::inverse() {
 
 
 double Matrix::determinant() const { 
+    if (rows != columns) {
+        throw MatrixError("Wyznacznik macierzy wymaga, żeby macierz była kwadratowa");
+    }
     if (rows == 1) {
         return values[0][0];
     }
@@ -206,7 +258,10 @@ double Matrix::determinant() const {
 }
 
 double Matrix::trace() {
-    int sum = 0;
+    if (rows != columns) {
+        throw MatrixError("Ślad macierzy wymaga, żeby macierz była kwadratowa");
+    }
+    double sum = 0;
     for (int r = 0; r < rows; r++) {
         sum += values[r][r];
     }

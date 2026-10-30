@@ -10,6 +10,8 @@ class Matrix {
     std::vector<std::vector<double>> values;
 
     public:
+    void set(int row, int column, double value);
+    void print() const;
     Matrix(int rows, int columns);
     void userInputValues();
     Matrix add(Matrix& other);
