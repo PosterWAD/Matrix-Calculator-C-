@@ -40,7 +40,7 @@ void Matrix::userInputValues() {
     }
 }
 
-Matrix Matrix::add(Matrix& other) {
+Matrix Matrix::add(const Matrix& other) const {
     if (rows != other.rows || columns != other.columns) {
         throw MatrixError("Dodawanie macierzy wymaga takich samych wymiarów");
     }
@@ -53,7 +53,7 @@ Matrix Matrix::add(Matrix& other) {
     return result;
 }
 
-Matrix Matrix::subtract(Matrix& other) {
+Matrix Matrix::subtract(const Matrix& other) const {
     if (rows != other.rows || columns != other.columns) {
         throw MatrixError("Odejmowanie macierzy wymaga takich samych wymiarów");
     }
@@ -66,7 +66,7 @@ Matrix Matrix::subtract(Matrix& other) {
     return result;
 }
 
-Matrix Matrix::multiply(Matrix& other) {
+Matrix Matrix::multiply(const Matrix& other) const {
     if (columns != other.rows) {
         throw MatrixError("Mnożenie macierzy wymaga, żeby liczba kolumn pierwszej macierzy była równa liczbie wierszy drugiej macierzy");
     }
@@ -81,7 +81,7 @@ Matrix Matrix::multiply(Matrix& other) {
     return result;
 }
 
-Matrix Matrix::divide(Matrix& other) {
+Matrix Matrix::divide(const Matrix& other) const {
     if (other.rows != other.columns) {
         throw MatrixError("Dzielenie przez macierz wymaga, żeby macierz była kwadratowa");
     }
@@ -107,7 +107,7 @@ Matrix Matrix::divide(Matrix& other) {
     return multiply(inverted);
 }
 
-Matrix Matrix::transpose() {
+Matrix Matrix::transpose() const {
     Matrix result(columns, rows);
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
@@ -117,7 +117,7 @@ Matrix Matrix::transpose() {
     return result;
 }
 
-Matrix Matrix::identity(){
+Matrix Matrix::identity() const {
     if (rows != columns) {
         throw MatrixError("Macierz jednostkowa wymaga, żeby macierz była kwadratowa");
     }
@@ -128,7 +128,7 @@ Matrix Matrix::identity(){
     return result;
 }
     
-Matrix Matrix::inverse() {
+Matrix Matrix::inverse() const {
     if (rows != columns) {
         throw MatrixError("Inwersja macierzy wymaga, żeby macierz była kwadratowa");
     }
@@ -257,7 +257,7 @@ double Matrix::determinant() const {
     return det;
 }
 
-double Matrix::trace() {
+double Matrix::trace() const {
     if (rows != columns) {
         throw MatrixError("Ślad macierzy wymaga, żeby macierz była kwadratowa");
     }

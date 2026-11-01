@@ -14,15 +14,15 @@ class Matrix {
     void print() const;
     Matrix(int rows, int columns);
     void userInputValues();
-    Matrix add(Matrix& other);
-    Matrix subtract(Matrix& other);
-    Matrix multiply(Matrix& other);
-    Matrix divide(Matrix& other);
-    Matrix transpose();
-    Matrix inverse();
-    Matrix identity();
+    Matrix add(const Matrix& other) const;
+    Matrix subtract(const Matrix& other) const;
+    Matrix multiply(const Matrix& other) const;
+    Matrix divide(const Matrix& other) const;
+    Matrix transpose() const;
+    Matrix inverse() const;
+    Matrix identity() const;
     double determinant() const;
-    double trace();
+    double trace() const;
 
 };
 
