@@ -2,7 +2,14 @@
 #include "core/Matrix.hpp"
 #include "core/MatrixError.hpp"
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 int main() {
+#ifdef _WIN32
+    SetConsoleOutputCP(CP_UTF8);
+#endif
     Matrix a(2, 2);
     a.set(0, 0, 1);
     a.set(0, 1, 2);

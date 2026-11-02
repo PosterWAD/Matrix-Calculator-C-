@@ -10,6 +10,13 @@ void Matrix::set(int row, int column, double value) {
     values[row][column] = value;
 }
 
+double Matrix::get(int row, int column) const {
+    if (row < 0 || column < 0 || row >= rows || column >= columns) {
+        throw MatrixError("Indeks jest poza macierzą");
+    }
+    return values[row][column];
+}
+
 void Matrix::print() const{
     for (int r = 0; r < rows; r++) {
         for (int c = 0; c < columns; c++) {
@@ -29,6 +36,9 @@ Matrix::Matrix(int rows, int columns) {
 }
 
 void Matrix::userInputValues() {
+    if (rows > 8 || columns > 8) {
+        throw MatrixError("Macierz wprowadzana przez użytkownika może mieć maksymalnie 8x8");
+    }
     std::cout << "Podaj liczby, wiersz po wierszu.\n";
     for (int r = 0; r < rows; r++) {
         for (int c = 0; c < columns; c++) {
@@ -117,14 +127,11 @@ Matrix Matrix::transpose() const {
     return result;
 }
 
-Matrix Matrix::identity() const {
-    if (rows != columns) {
-        throw MatrixError("Macierz jednostkowa wymaga, żeby macierz była kwadratowa");
+Matrix Matrix::identity(int n) {
+    Matrix result(n, n);
+    for (int i = 0; i < n; i++) {
+        result.values[i][i] = 1;
     }
-    Matrix result(rows, columns);
-        for (int r = 0; r < rows; r++) {
-            result.values[r][r] = 1;
-        }
     return result;
 }
     
