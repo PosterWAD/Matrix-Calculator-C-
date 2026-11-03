@@ -35,7 +35,7 @@ void divideRow(Matrix& matrix, int row, double divisor) {
         matrix.set(row, column, newValue);
     }
 }
-z
+
 // Ruch 3: targetRow = targetRow - factor * sourceRow
 void subtractRowMultiple(Matrix& matrix, int targetRow, int sourceRow, double factor) {
     for (int column = 0; column < matrix.getColumns(); column++) {
@@ -95,7 +95,7 @@ Matrix joinSideBySide(const Matrix& left, const Matrix& right) {
 // Wycina howMany kolumn, zaczynając od kolumny firstColumn
 Matrix copyColumns(const Matrix& matrix, int firstColumn, int howMany) {
     Matrix result(matrix.getRows(), howMany);
-    for (int row = 0; row < matrix.getRows(); row++) {
+    for (int row = 0; row < matrix.getRows(); row++) { 
         for (int column = 0; column < howMany; column++) {
             double value = matrix.get(row, firstColumn + column);
             result.set(row, column, value);

@@ -1,5 +1,6 @@
 #include "Matrix.hpp"
 #include "MatrixError.hpp"
+#include "Operations.hpp"
 #include <cmath>
 #include <iostream>
 
@@ -98,21 +99,6 @@ Matrix Matrix::divide(const Matrix& other) const {
     if (columns != other.rows) {
         throw MatrixError("Dzielenie wymaga, żeby liczba kolumn pierwszej macierzy była równa rozmiarowi drugiej");
     }
-    if (std::fabs(other.determinant()) < 1e-10) {
-        throw MatrixError("Dzielenie przez macierz o wyznaczniku równym 0 jest niemożliwe");
-    }
-    /*
-    Matrix result(rows, columns);
-    Matrix new_other = other.inverse();
-    for (int r = 0; r < rows; r++) {
-        for (int c = 0; c < columns; c++) {
-            for (int k = 0; k < columns; k++) {
-                result.values[r][c] += this->values[r][k] * new_other.values[k][c];
-            }
-        }
-    }
-    return result;
-    */
     Matrix inverted = other.inverse();
     return multiply(inverted);
 }
@@ -134,73 +120,10 @@ Matrix Matrix::identity(int n) {
     }
     return result;
 }
-    
+
 Matrix Matrix::inverse() const {
-    if (rows != columns) {
-        throw MatrixError("Inwersja macierzy wymaga, żeby macierz była kwadratowa");
-    }
-    if (std::fabs(determinant()) < 1e-10) {
-        throw MatrixError("Inwersja macierzy o wyznaczniku równym 0 jest niemożliwa");
-    }
-    Matrix result(rows, columns);
-    const int n = rows;
-    std::vector<std::vector<double>> aug(n, std::vector<double>(2 * n, 0));
-    for (int r = 0; r < n; r++) {
-        for (int c = 0; c < n; c++) {
-            aug[r][c] = values[r][c];
-        }
-        aug[r][n + r] = 1;
-    }
-
-    for (int col = 0; col < n; col++) {
-        int pivot = col;
-        double best = aug[col][col];
-        if (best < 0) {
-            best = -best;
-        }
-        for (int r = col + 1; r < n; r++) {
-            double mag = aug[r][col];
-            if (mag < 0) {
-                mag = -mag;
-            }
-            if (mag > best) {
-                best = mag;
-                pivot = r;
-            }
-        }
-        if (best < 1e-10) {
-            throw MatrixError("Macierz jest osobliwa, nie ma odwrotności");
-        }
-        if (pivot != col) {
-            std::vector<double> tmp = aug[col];
-            aug[col] = aug[pivot];
-            aug[pivot] = tmp;
-        }
-
-        double pivotValue = aug[col][col];
-        for (int c = 0; c < 2 * n; c++) {
-            aug[col][c] /= pivotValue;
-        }
-
-        for (int r = 0; r < n; r++) {
-            if (r == col) {
-                continue;
-            }
-            double factor = aug[r][col];
-            for (int c = 0; c < 2 * n; c++) {
-                aug[r][c] -= factor * aug[col][c];
-            }
-        }
-    }
-
-    for (int r = 0; r < n; r++) {
-        for (int c = 0; c < n; c++) {
-            result.values[r][c] = aug[r][n + c];
-        }
-    }
-    return result;
+    return inv(*this);
 }
-
 
 double Matrix::determinant() const { 
     if (rows != columns) {
