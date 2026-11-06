@@ -5,8 +5,7 @@ enum class TokenKind {
     Number,         /* 2  2.5  1e-3 */
     MatrixName,     /* A  B  a  b (only A and B) */
     Plus,           /* +  in  A + B */
-    BinaryMinus,    /* -  in  A - B,  3 - 2,  (A) - B */
-    UnaryMinus,     /* -  in  -A,  3 * -B,  (-A) */
+    Minus,          /* -  in  A - B,  -A,  3 * -B */
     Star,           /* *  in  2 * A,  A * B */
     Power,          /* ^  in  A^2,  2^3 (the number after it is a separate token) */
     Transpose,      /* ^T  in  A^T,  inv(A)^T (one token, not ^ + T) */
@@ -28,8 +27,7 @@ inline const char* kindName(TokenKind kind) {
         case TokenKind::Number:         return "Number";
         case TokenKind::MatrixName:     return "MatrixName";
         case TokenKind::Plus:           return "Plus";
-        case TokenKind::BinaryMinus:    return "BinaryMinus";
-        case TokenKind::UnaryMinus:     return "UnaryMinus";
+        case TokenKind::Minus:          return "Minus";
         case TokenKind::Star:           return "Star";
         case TokenKind::Power:          return "Power";
         case TokenKind::Transpose:      return "Transpose";
