@@ -134,6 +134,7 @@ std::vector<Token> tokenize(const std::string& input) {
                 default:
                     throw ParseError("Nieznany znak", index);
             }
+        }
     }
 
     return tokens;
