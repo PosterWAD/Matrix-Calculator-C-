@@ -17,9 +17,9 @@ enum class TokenKind {
 
 struct Token {
     TokenKind kind = TokenKind::Number; // default value like the rest down below to prevent future bugs
-    std::string text;       // "inv", "A", "2.5", "^T" ...
-    int position = 0;       // index in the input string
-    double value = 0.0;     // used only when kind == Number
+    std::string text;                   // "inv", "A", "2.5", "^T" ...
+    int position = 0;                   // index in the input string
+    double value = 0.0;                 // used only when kind == Number
 };
 
 inline const char* kindName(TokenKind kind) {
