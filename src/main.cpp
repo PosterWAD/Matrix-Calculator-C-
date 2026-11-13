@@ -2,10 +2,37 @@
 #include "core/Matrix.hpp"
 #include "core/MatrixError.hpp"
 #include "core/Operations.hpp"
+#include "parser/Parser.hpp"
+#include "parser/ParseError.hpp"
+#include "parser/Tokenizer.hpp"
 
 #ifdef _WIN32
 #include <windows.h>
 #endif
+
+// Wypisuje wynik: liczbę albo macierz.
+void printValue(const Value& value) {
+    if (std::holds_alternative<double>(value)) {
+        std::cout << std::get<double>(value) << "\n";
+    } else {
+        std::get<Matrix>(value).print();
+    }
+}
+
+// Tokenizuje, parsuje i wypisuje wynik albo błąd.
+void testExpression(const std::string& expression, const Matrix& a, const Matrix& b) {
+    std::cout << ">>> " << expression << "\n";
+    try {
+        std::vector<Token> tokens = tokenize(expression);
+        Parser parser(tokens, a, b);
+        Value result = parser.parse();
+        printValue(result);
+    } catch (const ParseError& error) {
+        std::cout << "Błąd składni: " << error.what() << "\n";
+    } catch (const MatrixError& error) {
+        std::cout << "Błąd obliczeń: " << error.what() << "\n";
+    }
+}
 
 int main() {
 #ifdef _WIN32
@@ -75,6 +102,27 @@ int main() {
     } catch (const MatrixError& error) {
         std::cout << "NIEOCZEKIWANY BŁĄD: " << error.what() << "\n";
     }
+
+    // ===== Testy fazy 4: parser (w komentarzu: oczekiwany wynik) =====
+    std::cout << "\n===== PARSER =====\n";
+    testExpression("2 + 3 * 4", a, b);          // 14
+    testExpression("2 * A + B", a, b);          // 7 10 / 13 16
+    testExpression("A * (A + B)", a, b);        // 26 32 / 58 72
+    testExpression("A - B - A", a, b);          // -5 -6 / -7 -8
+    testExpression("-A", a, b);                 // -1 -2 / -3 -4
+    testExpression("2 * A + trans(B)", a, b);   // 7 11 / 12 16
+    testExpression("A^T", a, b);                // 1 3 / 2 4
+    testExpression("A^2", a, b);                // 7 10 / 15 22
+    testExpression("A^-1", a, b);               // -2 1 / 1.5 -0.5
+    testExpression("det(A)", a, b);             // -2
+    testExpression("INV(a)", a, b);             // -2 1 / 1.5 -0.5
+    testExpression("rank(A) + tr(A)", a, b);    // 7
+    testExpression("solve(A, B)", a, b);        // -3 -4 / 4 5
+    testExpression("A + 1", a, b);              // błąd obliczeń
+    testExpression("(A + B", a, b);             // błąd składni
+    testExpression("A B", a, b);                // błąd składni
+    testExpression("inv(2)", a, b);             // błąd obliczeń
+    testExpression("", a, b);                   // błąd składni
 
     return 0;
 }

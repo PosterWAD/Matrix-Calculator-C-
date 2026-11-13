@@ -1,0 +1,92 @@
+{
+  ".claude/settings.json": {
+    "mtime": 1794570321.7052803,
+    "seen": 1794570959.6966972,
+    "ast_hash": "006012ec5a3dce23a1175d927b6408ad",
+    "semantic_hash": "006012ec5a3dce23a1175d927b6408ad"
+  },
+  "src/core/Matrix.cpp": {
+    "mtime": 1794337442.2292328,
+    "seen": 1794570959.696705,
+    "ast_hash": "0729858fc01f9cdcfc96d5471ad1f7b9",
+    "semantic_hash": "0729858fc01f9cdcfc96d5471ad1f7b9"
+  },
+  "src/core/Matrix.hpp": {
+    "mtime": 1794337441.1217158,
+    "seen": 1794570959.696709,
+    "ast_hash": "0ce70c3a5a54c5ecdfcd50ad7eced989",
+    "semantic_hash": "0ce70c3a5a54c5ecdfcd50ad7eced989"
+  },
+  "src/core/MatrixError.hpp": {
+    "mtime": 1793300679.1136606,
+    "seen": 1794570959.696711,
+    "ast_hash": "d202a9d455f3052546fe62d3eccdf742",
+    "semantic_hash": "d202a9d455f3052546fe62d3eccdf742"
+  },
+  "src/core/Operations.cpp": {
+    "mtime": 1793724472.7173758,
+    "seen": 1794570959.6967137,
+    "ast_hash": "6fbd554f6844e96a154e20ee6cb550a7",
+    "semantic_hash": "6fbd554f6844e96a154e20ee6cb550a7"
+  },
+  "src/core/Operations.hpp": {
+    "mtime": 1793649849.8835447,
+    "seen": 1794570959.6967158,
+    "ast_hash": "ff38a65692989859dcc3eed1a24bfaf3",
+    "semantic_hash": "ff38a65692989859dcc3eed1a24bfaf3"
+  },
+  "src/main.cpp": {
+    "mtime": 1794327329.7365,
+    "seen": 1794570959.6967177,
+    "ast_hash": "fae5488f0c192020c07f0ba98a79910a",
+    "semantic_hash": "fae5488f0c192020c07f0ba98a79910a"
+  },
+  "src/parser/ParseError.hpp": {
+    "mtime": 1793889923.0,
+    "seen": 1794570959.6967201,
+    "ast_hash": "0e254d4681e1f8ab2bfc6d5df164d937",
+    "semantic_hash": "0e254d4681e1f8ab2bfc6d5df164d937"
+  },
+  "src/parser/Token.hpp": {
+    "mtime": 1794575708.3748722,
+    "seen": 1794575753.2984846,
+    "ast_hash": "95512369901b4fc60617a4c412b55dc6",
+    "semantic_hash": ""
+  },
+  "src/parser/Tokenizer.cpp": {
+    "mtime": 1794575709.3137753,
+    "seen": 1794575753.2984867,
+    "ast_hash": "1248db6803befd8e5170463e3b8b99e4",
+    "semantic_hash": ""
+  },
+  "src/parser/Tokenizer.hpp": {
+    "mtime": 1793890430.0,
+    "seen": 1794570959.6969106,
+    "ast_hash": "552fb4300ed4b286c22e748182529458",
+    "semantic_hash": "552fb4300ed4b286c22e748182529458"
+  },
+  ".claude/CLAUDE.md": {
+    "mtime": 1794570321.7007797,
+    "seen": 1794570959.696913,
+    "ast_hash": "9b31786b637be3c13978bec4c2330752",
+    "semantic_hash": "9b31786b637be3c13978bec4c2330752"
+  },
+  "CLAUDE.md": {
+    "mtime": 1794570321.7032793,
+    "seen": 1794570959.6969147,
+    "ast_hash": "67d88e9d0760c3ba54c75dfd9551c1c5",
+    "semantic_hash": "67d88e9d0760c3ba54c75dfd9551c1c5"
+  },
+  "src/parser/Parser.cpp": {
+    "mtime": 1794575735.2318144,
+    "seen": 1794575753.2984786,
+    "ast_hash": "8f3932b3ad11b04bb7ab7594a8fb8a4e",
+    "semantic_hash": ""
+  },
+  "src/parser/Parser.hpp": {
+    "mtime": 1794575705.4746273,
+    "seen": 1794575753.2984817,
+    "ast_hash": "42e20131454bbc1151979f5247775c5b",
+    "semantic_hash": ""
+  }
+}

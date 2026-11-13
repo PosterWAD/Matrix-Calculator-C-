@@ -34,7 +34,6 @@ inline const char* kindName(TokenKind kind) {
         case TokenKind::Function:       return "Function";
         case TokenKind::LeftParen:      return "LeftParen";
         case TokenKind::RightParen:     return "RightParen";
-        case TokenKind::Comma:          return "Comma";
-    }
+        case TokenKind::Comma:          return "Comma";    }
     return "?";
 }

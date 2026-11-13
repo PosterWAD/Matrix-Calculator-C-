@@ -21,6 +21,7 @@ class Matrix {
     Matrix subtract(const Matrix& other) const;
     Matrix multiply(const Matrix& other) const;
     Matrix divide(const Matrix& other) const;
+    Matrix scale(double factor) const;
     Matrix transpose() const;
     Matrix inverse() const;
     static Matrix identity(int n);

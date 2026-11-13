@@ -104,7 +104,7 @@ std::vector<Token> tokenize(const std::string& input) {
                 throw ParseError("Nieznana macierz lub funkcja: " + text, start);
             }
 
-            addToken(tokens, kind, text, start);
+            addToken(tokens, kind, lower, start);  // małe litery: "INV" -> "inv", "A" -> "a"
         }
 
         else if (current == '^') {
