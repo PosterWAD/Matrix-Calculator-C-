@@ -5,6 +5,9 @@
 #include "parser/Parser.hpp"
 #include "parser/ParseError.hpp"
 #include "parser/Tokenizer.hpp"
+#include "ui/ConsoleMenu.hpp"
+#include "ui/Gui.hpp"
+#include <string>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -34,10 +37,8 @@ void testExpression(const std::string& expression, const Matrix& a, const Matrix
     }
 }
 
-int main() {
-#ifdef _WIN32
-    SetConsoleOutputCP(CP_UTF8);
-#endif
+// Stare testy faz 1-4. Uruchom:  MatrixCalculator.exe --test
+void runTests() {
     Matrix a(2, 2);
     a.set(0, 0, 1);
     a.set(0, 1, 2);
@@ -123,6 +124,24 @@ int main() {
     testExpression("A B", a, b);                // błąd składni
     testExpression("inv(2)", a, b);             // błąd obliczeń
     testExpression("", a, b);                   // błąd składni
+}
 
+int main(int argc, char* argv[]) {
+#ifdef _WIN32
+    SetConsoleOutputCP(CP_UTF8);  // polskie znaki na wyjściu
+    SetConsoleCP(CP_UTF8);        // i na wejściu
+#endif
+    std::string mode = (argc > 1) ? argv[1] : "";
+    if (mode == "--test") {          // MatrixCalculator.exe --test     -> stare testy
+        runTests();
+    } else if (mode == "--console") { // MatrixCalculator.exe --console  -> menu w terminalu
+        ConsoleMenu menu;
+        menu.run();
+    } else {                          // MatrixCalculator.exe            -> okno ImGui
+#ifdef _WIN32
+        FreeConsole();  // schowaj czarne okno konsoli, gdy program uruchomiono dwuklikiem
+#endif
+        return runGui();
+    }
     return 0;
 }

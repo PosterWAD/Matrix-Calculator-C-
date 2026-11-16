@@ -32,6 +32,7 @@ CMakeUserPresets.json
 .vscode/
 cspell.json
 .idea/
+graphify-out/
 
 # Windows
 desktop.ini
