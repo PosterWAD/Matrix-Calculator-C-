@@ -128,6 +128,7 @@ std::vector<Token> tokenize(const std::string& input) {
                 case '+': addToken(tokens, TokenKind::Plus, "+", index++); break;
                 case '-': addToken(tokens, TokenKind::Minus, "-", index++); break;
                 case '*': addToken(tokens, TokenKind::Star, "*", index++); break;
+                case '/': addToken(tokens, TokenKind::Slash, "/", index++); break;
                 case '(': addToken(tokens, TokenKind::LeftParen, "(", index++); break;
                 case ')': addToken(tokens, TokenKind::RightParen, ")", index++); break;
                 case ',': addToken(tokens, TokenKind::Comma, ",", index++); break;

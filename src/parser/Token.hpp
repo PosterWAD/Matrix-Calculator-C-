@@ -7,6 +7,7 @@ enum class TokenKind {
     Plus,           /* +  in  A + B */
     Minus,          /* -  in  A - B,  -A,  3 * -B */
     Star,           /* *  in  2 * A,  A * B */
+    Slash,          /* /  in  A / 2,  A / B (= A * inv(B)) */
     Power,          /* ^  in  A^2,  2^3 (the number after it is a separate token) */
     Transpose,      /* ^T  in  A^T,  inv(A)^T (one token, not ^ + T) */
     Function,       /* inv  det  trans  rref  tr  rank  solve */
@@ -29,6 +30,7 @@ inline const char* kindName(TokenKind kind) {
         case TokenKind::Plus:           return "Plus";
         case TokenKind::Minus:          return "Minus";
         case TokenKind::Star:           return "Star";
+        case TokenKind::Slash:          return "Slash";
         case TokenKind::Power:          return "Power";
         case TokenKind::Transpose:      return "Transpose";
         case TokenKind::Function:       return "Function";

@@ -20,7 +20,7 @@ private:
     size_t index = 0;
 
     Value expression();  // +  -
-    Value term();        // *
+    Value term();        // *  /
     Value unary();       // -A
     Value powerExpr();   // ^
     Value postfix();     // ^T

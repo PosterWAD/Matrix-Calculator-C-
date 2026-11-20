@@ -35,6 +35,18 @@ Value multiplyValues(const Value& x, const Value& y) {
     return std::get<Matrix>(x).multiply(std::get<Matrix>(y));                // A * B
 }
 
+Value divideValues(const Value& x, const Value& y) {
+    if (isNumber(y)) {
+        double divisor = std::get<double>(y);
+        if (divisor == 0.0) throw MatrixError("Dzielenie przez zero");
+        if (isNumber(x)) return std::get<double>(x) / divisor;            // 6 / 2
+        return std::get<Matrix>(x).scale(1.0 / divisor);                   // A / 2
+    }
+    const Matrix& divisor = std::get<Matrix>(y);
+    if (isNumber(x)) return inv(divisor).scale(std::get<double>(x));       // 2 / B = 2 * inv(B)
+    return std::get<Matrix>(x).divide(divisor);                            // A / B = A * inv(B)
+}
+
 Value powerValues(const Value& base, const Value& exponent) {
     if (!isNumber(exponent)) throw MatrixError("Wykładnik musi być liczbą");
     double e = std::get<double>(exponent);
@@ -64,7 +76,7 @@ Value applyFunction(const Token& token, const std::vector<Value>& args) {
 // (tym wcześniej się liczy), bo wyższa reguła woła niższą po swoje argumenty.
 //
 //   expression = term    { (+|-) term }       A + B - A
-//   term       = unary   { * unary }          2 * A
+//   term       = unary   { (*|/) unary }      2 * A,  A / B
 //   unary      = - unary | powerExpr          -A,  - -A
 //   powerExpr  = postfix [ ^ unary ]          A^2,  A^-1
 //   postfix    = primary { ^T }               A^T
@@ -95,10 +107,11 @@ Value Parser::expression() {
 
 Value Parser::term() {
     Value result = unary();
-    while (match(TokenKind::Star)) {
-        result = multiplyValues(result, unary());
+    while (true) {
+        if (match(TokenKind::Star))       result = multiplyValues(result, unary());
+        else if (match(TokenKind::Slash)) result = divideValues(result, unary());
+        else return result;
     }
-    return result;
 }
 
 Value Parser::unary() {
